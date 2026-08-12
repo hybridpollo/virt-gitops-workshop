@@ -1,0 +1,93 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: gitops-demo-f44-vm-03
+  labels:
+    app: gitops-demo-f44-vm-03
+    kubevirt.io/dynamic-credentials-support: "true"
+    vm.kubevirt.io/template: fedora-server-small
+    vm.kubevirt.io/template.namespace: openshift
+    vm.kubevirt.io/template.revision: "1"
+    vm.kubevirt.io/template.version: v0.32.2
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        name: gitops-demo-f44-vm-03-dv
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 30Gi
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: small
+        vm.kubevirt.io/os: fedora
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: gitops-demo-f44-vm-03
+        kubevirt.io/size: small
+        network.kubevirt.io/headlessService: headless
+        vm-group: gitops-demo-f44-vmgroup
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: 4
+          threads: 1
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: cloudinitdisk
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              model: virtio
+              bridge: {}
+              state: up
+          rng: {}
+        machine:
+          type: pc-q35-rhel9.4.0
+        memory:
+          guest: 8Gi
+        resources: {}
+      networks:
+        - name: default
+          multus:
+            networkName: vlan-2103-cudn
+      terminationGracePeriodSeconds: 180
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: gitops-demo-f44-vm-03-dv
+        - name: cloudinitdisk
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              user: fedora
+              password: iliketurtles
+              chpasswd: { expire: False }
+              shell: /bin/bash
+              ssh_authorized_keys:
+                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMwdO156MeYi9rpdF3VumPLEMbRioTdLFNssiCh8hNVI4pRZAKmb5yZYzRXCOkEF8SYUvuw9JTywlCWubfakX3hqltcx28DMu0Xh38b7vxyB/yUSEbGV57cBvsjkBcuynGTJHmsFelx2KlhAWm3dkcvl3PwdKHvhMg20elYXRD08ifa7msaVuB/yndmDEClgwk5gfEU3SlQEVqnLQ5ftnBn/+zOET490QHQ32ZbbUvzVSFKbpk9wky9TaOBJGj5hRdAIJDNFEO75ZZb02urO06nzIdWA6KjNF2YcOs0c91umM3TCAXuECHLpYGogvSW+oQr7QMxr05qvZCMaY3uK6EwBMoqbS4iRLVojA/lCoFu26eukESeh5hbBANJ14Gx6QOs8a290Ng92dsDGl0lrQkgbiiV2ovKGt7uUTR8spe9SbutR5G/IQX7bG9ArQc3PqJJifYICiUHzsINv9cLcDKNyxHn7R8sjtmefUq5MEYbL24lfFT67Tw0W8HVS0MiFU=
+            networkData: |
+              version: 2
+              ethernets:
+                enp1s0:
+                  nameservers:
+                    addresses:
+                      - 1.2.3.4
+                  addresses:
+                    - 172.22.3.233/24
+                  gateway4: 172.22.3.1
