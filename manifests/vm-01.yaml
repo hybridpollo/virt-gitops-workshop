@@ -2,6 +2,7 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: gitops-demo-f44-vm-01
+  namespace: berto-virt-gitops-demo
   labels:
     app: gitops-demo-f44-vm-01
     kubevirt.io/dynamic-credentials-support: "true"
