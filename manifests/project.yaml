@@ -4,3 +4,4 @@ metadata:
   name: berto-virt-gitops-demo
   labels:
     cudn: "true"
+    argocd.argoproj.io/managed-by: openshift-gitops

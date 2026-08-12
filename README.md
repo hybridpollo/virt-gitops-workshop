@@ -6,7 +6,7 @@ GitOps manifests for deploying demo Fedora virtual machines on OpenShift Virtual
 
 | Resource | Name | Notes |
 |---|---|---|
-| Project / Namespace | `berto-virt-gitops-demo` | Labelled `cudn: "true"` |
+| Project | `berto-virt-gitops-demo` | OpenShift Project with `cudn: "true"` and Argo CD managed-by label |
 | VirtualMachine | `gitops-demo-f44-vm-01` … `gitops-demo-f44-vm-04` | Persistent Fedora disks + cloud-init |
 
 Each VM:
@@ -24,7 +24,7 @@ Each VM:
 ├── argocd-application.yaml   # Argo CD Application (apply once)
 └── manifests/                # Synced by Argo CD
     ├── kustomization.yaml
-    ├── namespace.yaml         # Project + cudn label
+    ├── project.yaml          # OpenShift Project (not a bare Namespace)
     ├── vm-01.yaml
     ├── vm-02.yaml
     ├── vm-03.yaml
@@ -60,7 +60,7 @@ Argo CD syncs `manifests/` into `berto-virt-gitops-demo` with automated prune an
 ### 4. Verify
 
 ```bash
-oc get application demo-vms -n openshift-gitops
+oc get application berto-gitops-virt-demo -n openshift-gitops
 oc get project berto-virt-gitops-demo --show-labels
 oc get vm,dv -n berto-virt-gitops-demo
 ```
@@ -75,7 +75,7 @@ oc apply -k manifests/
 
 ## Customizing
 
-- **Namespace / project** — update `manifests/namespace.yaml` and `spec.destination.namespace` in `argocd-application.yaml`
+- **Project** — update `manifests/project.yaml` and `spec.destination.namespace` in `argocd-application.yaml`
 - **VM count / names** — add or edit `manifests/vm-*.yaml` and list them in `kustomization.yaml`
 - **IPs / SSH / password** — edit `cloudInitNoCloud.userData` and `networkData` in each VM
 - **Network** — change `multus.networkName` if your CUDN / NAD differs
@@ -83,4 +83,4 @@ oc apply -k manifests/
 ## Notes
 
 - Credentials in cloud-init are for demo use only; rotate or remove them for non-demo environments.
-- `CreateNamespace=true` on the Application is a fallback; the Project in `namespace.yaml` is the source of truth for the `cudn` label.
+- The Application does **not** use `CreateNamespace`. The OpenShift `Project` in `manifests/project.yaml` is what creates `berto-virt-gitops-demo` (and its backing namespace) during sync.
