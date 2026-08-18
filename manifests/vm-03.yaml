@@ -74,21 +74,7 @@ spec:
             name: gitops-demo-f44-vm-03-dv
         - name: cloudinitdisk
           cloudInitNoCloud:
-            userData: |
-              #cloud-config
-              user: fedora
-              password: iliketurtles
-              chpasswd: { expire: False }
-              shell: /bin/bash
-              ssh_authorized_keys:
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMwdO156MeYi9rpdF3VumPLEMbRioTdLFNssiCh8hNVI4pRZAKmb5yZYzRXCOkEF8SYUvuw9JTywlCWubfakX3hqltcx28DMu0Xh38b7vxyB/yUSEbGV57cBvsjkBcuynGTJHmsFelx2KlhAWm3dkcvl3PwdKHvhMg20elYXRD08ifa7msaVuB/yndmDEClgwk5gfEU3SlQEVqnLQ5ftnBn/+zOET490QHQ32ZbbUvzVSFKbpk9wky9TaOBJGj5hRdAIJDNFEO75ZZb02urO06nzIdWA6KjNF2YcOs0c91umM3TCAXuECHLpYGogvSW+oQr7QMxr05qvZCMaY3uK6EwBMoqbS4iRLVojA/lCoFu26eukESeh5hbBANJ14Gx6QOs8a290Ng92dsDGl0lrQkgbiiV2ovKGt7uUTR8spe9SbutR5G/IQX7bG9ArQc3PqJJifYICiUHzsINv9cLcDKNyxHn7R8sjtmefUq5MEYbL24lfFT67Tw0W8HVS0MiFU=
-            networkData: |
-              version: 2
-              ethernets:
-                enp1s0:
-                  nameservers:
-                    addresses:
-                      - 1.2.3.4
-                  addresses:
-                    - 172.22.3.233/24
-                  gateway4: 172.22.3.1
+            secretRef:
+              name: gitops-demo-f44-vm-03-cloudinit
+            networkDataSecretRef:
+              name: gitops-demo-f44-vm-03-cloudinit

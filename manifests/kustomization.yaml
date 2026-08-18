@@ -7,3 +7,28 @@ resources:
   - vm-02.yaml
   - vm-03.yaml
   - vm-04.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: gitops-demo-f44-vm-01-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=cloud-init/userdata-vm-01
+      - networkdata=cloud-init/networkdata-vm-01
+  - name: gitops-demo-f44-vm-02-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=cloud-init/userdata-vm-02
+      - networkdata=cloud-init/networkdata-vm-02
+  - name: gitops-demo-f44-vm-03-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=cloud-init/userdata-vm-03
+      - networkdata=cloud-init/networkdata-vm-03
+  - name: gitops-demo-f44-vm-04-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=cloud-init/userdata-vm-04
+      - networkdata=cloud-init/networkdata-vm-04

@@ -1,0 +1,9 @@
+version: 2
+ethernets:
+  enp1s0:
+    nameservers:
+      addresses:
+        - 1.2.3.4
+    addresses:
+      - 172.22.3.234/24
+    gateway4: 172.22.3.1
