@@ -67,7 +67,7 @@ spec:
       networks:
         - name: default
           multus:
-            networkName: vlan-2103-cudn
+            networkName: default/ac4rex-virt-net
       terminationGracePeriodSeconds: 180
       volumes:
         - name: rootdisk
