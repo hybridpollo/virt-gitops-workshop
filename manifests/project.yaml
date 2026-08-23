@@ -6,4 +6,5 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   labels:
+    cudn: "true"
     argocd.argoproj.io/managed-by: openshift-gitops
