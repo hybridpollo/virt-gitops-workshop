@@ -3,7 +3,7 @@ ethernets:
   enp1s0:
     nameservers:
       addresses:
-        - 1.2.3.4
+        - 172.31.103.252
     addresses:
-      - 172.22.3.231/24
-    gateway4: 172.22.3.1
+      - 172.31.99.231/24
+    gateway4: 172.31.99.1
