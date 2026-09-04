@@ -7,4 +7,3 @@ ethernets:
     addresses:
       - 172.31.99.232/24
     gateway4: 172.31.99.1
-

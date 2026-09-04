@@ -2,10 +2,10 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: gitops-demo-f44-vm-04
+  name: gitops-demo-f44-vm-02
   namespace: berto-virt-gitops-demo
   labels:
-    app: gitops-demo-f44-vm-04
+    app: gitops-demo-f44-vm-02
     kubevirt.io/dynamic-credentials-support: "true"
     vm.kubevirt.io/template: fedora-server-small
     vm.kubevirt.io/template.namespace: openshift
@@ -16,7 +16,7 @@ spec:
     - apiVersion: cdi.kubevirt.io/v1beta1
       kind: DataVolume
       metadata:
-        name: gitops-demo-f44-vm-04-dv
+        name: gitops-demo-f44-vm-02-dv
       spec:
         sourceRef:
           kind: DataSource
@@ -34,7 +34,7 @@ spec:
         vm.kubevirt.io/os: fedora
         vm.kubevirt.io/workload: server
       labels:
-        kubevirt.io/domain: gitops-demo-f44-vm-04
+        kubevirt.io/domain: gitops-demo-f44-vm-02
         kubevirt.io/size: small
         network.kubevirt.io/headlessService: headless
         vm-group: gitops-demo-f44-vmgroup
@@ -67,15 +67,15 @@ spec:
       networks:
         - name: default
           multus:
-            networkName: default/ac4rex-virt-net
+            networkName: placeholder-network
       terminationGracePeriodSeconds: 180
       volumes:
         - name: rootdisk
           dataVolume:
-            name: gitops-demo-f44-vm-04-dv
+            name: gitops-demo-f44-vm-02-dv
         - name: cloudinitdisk
           cloudInitNoCloud:
             secretRef:
-              name: gitops-demo-f44-vm-04-cloudinit
+              name: gitops-demo-f44-vm-02-cloudinit
             networkDataSecretRef:
-              name: gitops-demo-f44-vm-04-cloudinit
+              name: gitops-demo-f44-vm-02-cloudinit

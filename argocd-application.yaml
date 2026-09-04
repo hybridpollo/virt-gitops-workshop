@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/hybridpollo/virt-gitops-workshop.git
     targetRevision: home-lab
-    path: manifests
+    path: manifests/overlays/home-lab
   destination:
     server: https://kubernetes.default.svc
     namespace: berto-virt-gitops-demo

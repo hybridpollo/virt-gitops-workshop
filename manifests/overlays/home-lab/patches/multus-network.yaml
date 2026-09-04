@@ -1,0 +1,11 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: not-used
+spec:
+  template:
+    spec:
+      networks:
+        - name: default
+          multus:
+            networkName: default/ac4rex-virt-net
