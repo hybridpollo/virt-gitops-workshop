@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: gitops-demo-f44-vm-01-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=userdata/vm-01
+      - networkdata=networkdata/vm-01
+  - name: gitops-demo-f44-vm-02-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=userdata/vm-02
+      - networkdata=networkdata/vm-02
+  - name: gitops-demo-f44-vm-03-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=userdata/vm-03
+      - networkdata=networkdata/vm-03
+  - name: gitops-demo-f44-vm-04-cloudinit
+    namespace: berto-virt-gitops-demo
+    files:
+      - userdata=userdata/vm-04
+      - networkdata=networkdata/vm-04

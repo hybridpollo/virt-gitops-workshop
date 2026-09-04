@@ -67,7 +67,7 @@ spec:
       networks:
         - name: default
           multus:
-            networkName: vlan-2103-cudn
+            networkName: placeholder-network
       terminationGracePeriodSeconds: 180
       volumes:
         - name: rootdisk
